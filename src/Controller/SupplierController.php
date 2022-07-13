@@ -24,5 +24,37 @@ class SupplierController extends AbstractController
             'supplier'=> $supplier
         ]);
     }
-    
+    /**
+    * @Route("/supplier/add", name="addSupplier")
+    */
+    public function addSupplierAction(ManagerRegistry $res, Request $req, ValidatorInterface $valid): Response
+    {
+        $supplier = new Supplier();
+        $supplierForm = $this->createForm(SupplierFormType::class, $supplier);
+        $supplierForm ->handleRequest($req);
+        $entity = $res->getManager();
+        if($supplierForm->isSubmitted() && $supplierForm->isValid())
+        {
+            $data = $supplierForm->getData();
+            $supplier->setSupName($data->getSupName());
+            $supplier->setTel($data->getTel());
+            $err = $valid->validate($supplier);
+            if (count($err) > 0) {
+                $string_err = (string)$err;
+                return new Response($string_err, 400);
+            }
+            $entity->persist($supplier);
+            $entity->flush();
+ 
+            $this->addFlash(
+                'success',
+                'Your post was added'
+            );
+            return $this->redirectToRoute("app_supplier");
+        }
+        return $this->render('Supplier/add.html.twig', [
+            'form' => $supplierForm->createView()
+        ]);
+    }
+
 }
