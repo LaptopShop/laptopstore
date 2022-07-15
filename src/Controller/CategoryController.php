@@ -57,7 +57,7 @@ class CategoryController extends AbstractController
             'form' => $categoryForm->createView()
         ]);
     }
-     /**
+      /**
      * @Route("/edit/Category/{id}", name="editCategory")
      */
     public function editCategoryAction(ManagerRegistry $res, Request $req, ValidatorInterface $valid, CategoryRepository $repo, $id): Response
@@ -89,7 +89,7 @@ class CategoryController extends AbstractController
             'form' => $categoryForm->createView()
         ]);
     }
-     /**
+      /**
      * @Route("/delete/Category{id}", name="deleteCategory")
      */
     public function deleteCategoryFunction(CategoryRepository $repo, ManagerRegistry $doc, $id): Response
