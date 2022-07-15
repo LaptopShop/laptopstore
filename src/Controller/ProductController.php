@@ -116,5 +116,33 @@ class ProductController extends AbstractController
       'form' => $productForm->createView()
     ]);
   }
+  /**
+     * @Route("product/delete/{id}", name="deleteProduct")
+     */
+    public function deleteProductFunction(ProductRepository $repo, ManagerRegistry $doc, $id): Response
+    {
+        $product = $repo->find($id);
+ 
+        if (!$product) {
+            throw
+            $this->createNotFoundException('Invalid ID ' . $id);
+        }
+        $entity = $doc->getManager();
+        $entity->remove($product);  
+        $entity->flush();
+        return $this->redirectToRoute("app_product");
+    }
+     /**
+     * @Route("/product/getImage/{filename}", name="get_image")
+     */
+    public function getImage($filename): Response
+    {
+        $file = $this->getParameter('image_dir') . '/' . $filename;
+        $response = new Response();
+        $response->headers->set('Content-Type', 'image/jpg');
+        $response->setContent(file_get_contents($file));
+        return $response;
+    }
 }
+
 
