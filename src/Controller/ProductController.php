@@ -37,5 +37,49 @@ class ProductController extends AbstractController
       'products' => $product
     ]);
   }
+   /**
+   * @Route("/product/add", name="addProduct")
+   */
+  public function addProductAction(ManagerRegistry $res, Request $req, SluggerInterface $slugger, ValidatorInterface $valid): Response
+  {
+    $product = new Product();
+    $productForm = $this->createForm(ProductFormType::class, $product);
+    $productForm->handleRequest($req);
+    $entity = $res->getManager();
+    if ($productForm->isSubmitted() && $productForm->isValid()) {
+      $data = $productForm->getData();
+      $product->setProductName($data->getProductName());
+      $product->setPrice($data->getPrice());
+      $product->setOldPrice($data->getOldPrice());
+      $product->setSmallDesc($data->getSmallDesc());
+      $product->setDetailDesc($data->getDetailDesc());
+      $product->setProDate($data->getProDate());
+      $product->setProQty($data->getProQty());
+      $product->setSupplier($data->getSupplier());
+      $product->setCategories($data->getCategories());
+
+      $imgFile = $productForm->get('image')->getData();
+      if ($imgFile) {
+        $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeFilename = $slugger->slug($originalFilename);
+        $newFilename = $safeFilename . '-' . uniqid() . '.' . $imgFile->guessExtension();
+        try {
+          $imgFile->move(
+            $this->getParameter('image_dir'),
+            $newFilename
+          );
+        } catch (FileException $e) {
+          echo $e;
+        }
+        $product->setImage($newFilename);
+      }
+      $entity->persist($product);
+      $entity->flush();
+      return $this->redirectToRoute("app_product");
+    }
+    return $this->render('product/add.html.twig', [
+      'form' => $productForm->createView()
+    ]);
+  }
 }
 
