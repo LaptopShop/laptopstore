@@ -132,17 +132,6 @@ class ProductController extends AbstractController
         $entity->flush();
         return $this->redirectToRoute("app_product");
     }
-     /**
-     * @Route("/product/getImage/{filename}", name="get_image")
-     */
-    public function getImage($filename): Response
-    {
-        $file = $this->getParameter('image_dir') . '/' . $filename;
-        $response = new Response();
-        $response->headers->set('Content-Type', 'image/jpg');
-        $response->setContent(file_get_contents($file));
-        return $response;
-    }
-}
+   
 
 
