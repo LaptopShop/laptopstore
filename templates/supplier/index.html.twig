@@ -26,5 +26,39 @@
   background-color: #04AA6D;
   color: white;
 }
-
+</style>
+ <form name="frm" method="post" action="">
+        <h1>Supplier</h1>
+        <p>
+            <img src="Image/add.jpg" alt="Add new" width="16" height="16" border="0" /> <a href="{{path('addSupplier')}}"> Add Supplier</a>
+        </p>
+        <table id="customers" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th class="text-center"><strong>No.</strong></th>
+                    <th class="text-center"><strong>SupplierName</strong></th>
+                    <th class="text-center"><strong>Tel</strong></th>
+                    <th class="text-center"><strong>Edit</strong></th>
+                    <th class="text-center"><strong>Delete</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for s in supplier %}
+                   <tr>
+                        <td class="text-center">{{s.id}}</td>
+                        <td class="text-center">{{s.SupName}}</td>
+                        <td class="text-center">{{s.Tel}}</td>
+                        <td style='text-align:center'>
+                            <a href="{{path('editSupplier', {id:s.id})}}">
+                                <img src='Image/settings.jpg' width="16" height="16" border='0'/>
+                            </a>
+                        </td>
+                        <td style='text-align:center'>
+                            <a href="{{path('deleteSupplier', {id:s.id})}}" onclick="return confirm('Are you sure to delete?')">
+                            <img src='Image/delete.jpg' width="16" height="16" border="0" /></a></td>
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+</form>
 {% endblock %}
