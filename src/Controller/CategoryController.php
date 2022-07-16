@@ -89,4 +89,20 @@ class CategoryController extends AbstractController
             'form' => $categoryForm->createView()
         ]);
     }
+      /**
+     * @Route("/delete/Category{id}", name="deleteCategory")
+     */
+    public function deleteCategoryFunction(CategoryRepository $repo, ManagerRegistry $doc, $id): Response
+    {
+        $category = $repo->find($id);
+ 
+        if (!$category) {
+            throw
+            $this->createNotFoundException('Invalid ID ' . $id);
+        }
+        $entity = $doc->getManager();
+        $entity->remove($category);
+        $entity->flush();
+        return $this->redirectToRoute("app_category");
+    }
 }   
