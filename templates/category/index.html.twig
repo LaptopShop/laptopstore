@@ -32,56 +32,5 @@
 			background-color: #04AA6D;
 			color: white;
 		}
-	</style>
-	<br>
-	<br>
-	<form name="frm" method="post" action="">
-		<h1>Category</h1>
-		<p>
-			<img src="Image/add.jpg" alt="" width="16" height="16" border="0"/>
-			<a href="{{path('addCategory')}}">
-				Add New</a>
-		</p>
-		<table id="customers" class="table table-striped table-bordered" cellspacing="0" width="100%">
-			<thead>
-				<tr>
-					<th class="text-center">
-						<strong>No.</strong>
-					</th>
-					<th class="text-center">
-						<strong>Category Name</strong>
-					</th>
-					<th class="text-center">
-						<strong>Desscription</strong>
-					</th>
-					<th class="text-center">
-						<strong>Edit</strong>
-					</th>
-					<th class="text-center">
-						<strong>Delete</strong>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for c in category %}
-					<tr>
-						<td class="text-center">{{c.id}}</td>
-						<td class="text-center">{{c.CatName}}
-						</td>
-						<td class="text-center">{{c.CatDes}}
-						</td>
-						<td style='text-align:center'>
-							<a href="{{path('editCategory', {id:c.id})}}">
-								<img src='Image/settings.jpg' width="16" height="16" border='0'/>
-							</a>
-						</td>
-						<td style='text-align:center'>
-							<a href="{{path('deleteCategory', {id:c.id})}}" onclick="return confirm('Are you sure to delete?')">
-								<img src='Image/delete.jpg' width="16" height="16" border="0"/></a>
-						</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</form>
+	
 {% endblock %}
