@@ -28,5 +28,46 @@
   background-color: #04AA6D;
   color: white;
 }
- 
+ </style>
+ <form name="frm" method="product" action="">
+        <h1>Products </h1>
+        <p>
+          <img src="Image/add.jpg" alt="Add new" width="16" height="16" border="0" /> <a href="{{path('addProduct')}}"> Add New</a>
+        </p>
+        <table id="customers">
+            <thead>
+                <tr>
+                    <th class="text-center"><strong>No.</strong></th>
+                    <th class="text-center"><strong>Product Name</strong></th>
+                    <th class="text-center"><strong>Price</strong></th>
+                    <th class="text-center"><strong>OldPrice</strong></th>
+                    <th class="text-center"><strong>SmallDesc</strong></th>
+                    <th class="text-center"><strong>DetailDesc</strong></th>
+                    <th class="text-center"><strong>Date</strong></th>
+                    <th class="text-center"><strong>Quantity</strong></th>
+                    <th class="text-center"><strong>Image</strong></th>
+                    <th class="text-center"><strong>Delete</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                 <tr>
+             {% for p in product %}
+                 <td class="text-center">{{p.id}}</td>
+                        <td class="text-center">{{p.ProductName}}</td>
+                        <td class="text-center">{{p.Price}}</td>
+                        <td class="text-center">{{p.OldPrice}}</td>
+                        <td class="text-center">{{p.SmallDesc}}</td>
+                        <td class="text-center">{{p.DetailDesc}}</td>
+                        <td class="text-center">{{p.ProDate|date('Y-m-d H:i:s')}}</td>
+                        <td class="text-center">{{p.ProQty}}</td>
+                        <td class="text-center"><img src="{{ path('get_image', { filename: p.image }) }}" width="50" height="50" /></td>
+                            <td align='center'>
+                                <a href="{{path('deleteProduct', {id:p.id})}}" onclick="return confirm('Are you sure to delete?')">
+                            <img src="Image/delete.jpg" border='0' width="16" height="16" /></a>
+                        </td>
+                    </tr>
+              {% endfor %}
+                </table>
+            </tbody>
+    </form>
 {% endblock %}
